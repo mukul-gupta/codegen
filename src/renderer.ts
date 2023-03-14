@@ -1,15 +1,15 @@
 import Yoga from 'yoga-layout-prebuilt';
 import renderNodeToOutput from './render-node-to-output.js';
 import Output from './output.js';
-import {type DOMElement} from './dom.js';
+import {DOMElement} from './dom.js';
 
-type Result = {
+interface Result {
 	output: string;
 	outputHeight: number;
 	staticOutput: string;
-};
+}
 
-const renderer = (node: DOMElement, terminalWidth: number): Result => {
+export default (node: DOMElement, terminalWidth: number): Result => {
 	node.yogaNode!.setWidth(terminalWidth);
 
 	if (node.yogaNode) {
@@ -52,5 +52,3 @@ const renderer = (node: DOMElement, terminalWidth: number): Result => {
 		staticOutput: ''
 	};
 };
-
-export default renderer;

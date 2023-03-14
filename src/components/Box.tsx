@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-import React, {forwardRef, type PropsWithChildren} from 'react';
-import {type Except} from 'type-fest';
-import {type Styles} from '../styles.js';
-import {type DOMElement} from '../dom.js';
+import React, {forwardRef, PropsWithChildren} from 'react';
+import {Except} from 'type-fest';
+import {Styles} from '../styles.js';
+import {DOMElement} from '../dom.js';
 
 export type Props = Except<Styles, 'textWrap'> & {
 	/**
@@ -47,26 +47,7 @@ export type Props = Except<Styles, 'textWrap'> & {
 	 */
 	readonly paddingY?: number;
 
-	/**
-	 * Behavior for an element's overflow in both directions.
-	 *
-	 * @default 'visible'
-	 */
-	readonly overflow?: 'visible' | 'hidden';
-
-	/**
-	 * Behavior for an element's overflow in horizontal direction.
-	 *
-	 * @default 'visible'
-	 */
-	readonly overflowX?: 'visible' | 'hidden';
-
-	/**
-	 * Behavior for an element's overflow in vertical direction.
-	 *
-	 * @default 'visible'
-	 */
-	readonly overflowY?: 'visible' | 'hidden';
+	name_box?: string;
 };
 
 /**
@@ -83,10 +64,7 @@ const Box = forwardRef<DOMElement, PropsWithChildren<Props>>(
 			paddingLeft: style.paddingLeft || style.paddingX || style.padding || 0,
 			paddingRight: style.paddingRight || style.paddingX || style.padding || 0,
 			paddingTop: style.paddingTop || style.paddingY || style.padding || 0,
-			paddingBottom:
-				style.paddingBottom || style.paddingY || style.padding || 0,
-			overflowX: style.overflowX || style.overflow || 'visible',
-			overflowY: style.overflowY || style.overflow || 'visible'
+			paddingBottom: style.paddingBottom || style.paddingY || style.padding || 0
 		};
 
 		return (

@@ -1,19 +1,19 @@
-import React, {type ReactNode} from 'react';
-import chalk, {type ForegroundColorName} from 'chalk';
-import {type LiteralUnion} from 'type-fest';
+import React, {FC, ReactNode} from 'react';
+import chalk, {ForegroundColor} from 'chalk';
 import colorize from '../colorize.js';
-import {type Styles} from '../styles.js';
+import {Styles} from '../styles.js';
+import {LiteralUnion} from 'type-fest';
 
-export type Props = {
+export interface Props {
 	/**
 	 * Change text color. Ink uses chalk under the hood, so all its functionality is supported.
 	 */
-	readonly color?: LiteralUnion<ForegroundColorName, string>;
+	readonly color?: LiteralUnion<typeof ForegroundColor, string>;
 
 	/**
 	 * Same as `color`, but for background.
 	 */
-	readonly backgroundColor?: LiteralUnion<ForegroundColorName, string>;
+	readonly backgroundColor?: LiteralUnion<typeof ForegroundColor, string>;
 
 	/**
 	 * Dim the color (emit a small amount of light).
@@ -51,25 +51,24 @@ export type Props = {
 	 * If `truncate-*` is passed, Ink will truncate text instead, which will result in one line of text with the rest cut off.
 	 */
 	readonly wrap?: Styles['textWrap'];
-
 	readonly children?: ReactNode;
-};
+}
 
 /**
  * This component can display text, and change its style to make it colorful, bold, underline, italic or strikethrough.
  */
-export default function Text({
+const Text: FC<Props> = ({
 	color,
 	backgroundColor,
-	dimColor = false,
-	bold = false,
-	italic = false,
-	underline = false,
-	strikethrough = false,
-	inverse = false,
-	wrap = 'wrap',
+	dimColor,
+	bold,
+	italic,
+	underline,
+	strikethrough,
+	inverse,
+	wrap,
 	children
-}: Props) {
+}) => {
 	if (children === undefined || children === null) {
 		return null;
 	}
@@ -118,4 +117,17 @@ export default function Text({
 			{children}
 		</ink-text>
 	);
-}
+};
+
+Text.displayName = 'Text';
+
+Text.defaultProps = {
+	dimColor: false,
+	bold: false,
+	italic: false,
+	underline: false,
+	strikethrough: false,
+	wrap: 'wrap'
+};
+
+export default Text;

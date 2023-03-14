@@ -1,12 +1,29 @@
 {
-	"extends": "@sindresorhus/tsconfig",
+
 	"compilerOptions": {
-		"moduleResolution": "node16",
-		"module": "node16",
+	       "useUnknownInCatchVariables": false,
+		"moduleResolution": "nodenext",
+		"module": "NodeNext",
 		"esModuleInterop": true,
 		"outDir": "build",
 		"sourceMap": true,
-		"jsx": "react"
+		"target": "es2017", // Node.js 8
+		"resolveJsonModule": true,
+		"jsx": "react",
+		"declaration": true,
+		"pretty": true,
+		"newLine": "lf",
+		"stripInternal": true,
+		"strict": false,
+		"noImplicitReturns": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noEmitOnError": true,
+		// Disabled because of TS bugs: https://github.com/sindresorhus/tsconfig/issues/7
+		// "useDefineForClassFields": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true
 	},
 	"include": ["src"],
 	"ts-node": {

@@ -1,31 +1,54 @@
-import {type ReactNode, type Key, type LegacyRef} from 'react';
-import {type Except} from 'type-fest';
-import {type DOMElement} from './dom.js';
-import {type Styles} from './styles.js';
+import {ReactNode, Key, LegacyRef} from 'react';
+import {Except} from 'type-fest';
+import { INDENT_TYP } from './components/Indent';
+import {DOMElement} from './dom';
+import {Styles} from './styles';
 
 declare global {
 	namespace JSX {
-		// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 		interface IntrinsicElements {
 			'ink-box': Ink.Box;
 			'ink-text': Ink.Text;
+			'ink-file':Ink.File;
+			'ink-indent':Ink.Indent;
+
 		}
 	}
 }
 
 declare namespace Ink {
-	type Box = {
-		internal_static?: boolean;
+
+	// every element will pass through the indent size and type
+	interface CommonElement {
 		children?: ReactNode;
+		indentSize?: number;
+		indentType?: INDENT_TYP
+	}
+
+
+	interface Box extends CommonElement {
+		//children?: ReactNode;
 		key?: Key;
 		ref?: LegacyRef<DOMElement>;
 		style?: Except<Styles, 'textWrap'>;
-	};
+	}
 
-	type Text = {
-		children?: ReactNode;
+	interface Text extends CommonElement{
+		//children?: ReactNode;
 		key?: Key;
 		style?: Styles;
 		internal_transform?: (children: string) => string;
-	};
+	}
+
+	interface File extends CommonElement{
+		//children?: ReactNode;
+		name: string;
+	}
+
+
+	interface Indent extends CommonElement {
+
+	}
+
+
 }

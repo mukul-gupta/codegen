@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-import Yoga, {type YogaNode} from 'yoga-layout-prebuilt';
-import {type Boxes} from 'cli-boxes';
-import {type LiteralUnion} from 'type-fest';
-import {type ForegroundColorName} from 'chalk';
+import Yoga, {YogaNode} from 'yoga-layout-prebuilt';
+import {Boxes} from 'cli-boxes';
+import {LiteralUnion} from 'type-fest';
+import {ForegroundColor} from 'chalk';
 
-export type Styles = {
+export interface Styles {
 	readonly textWrap?:
 		| 'wrap'
 		| 'end'
@@ -140,18 +140,8 @@ export type Styles = {
 	 * Change border color.
 	 * Accepts the same values as `color` in <Text> component.
 	 */
-	readonly borderColor?: LiteralUnion<ForegroundColorName, string>;
-
-	/**
-	 * Behavior for an element's overflow in horizontal direction.
-	 */
-	readonly overflowX?: 'visible' | 'hidden';
-
-	/**
-	 * Behavior for an element's overflow in vertical direction.
-	 */
-	readonly overflowY?: 'visible' | 'hidden';
-};
+	readonly borderColor?: LiteralUnion<typeof ForegroundColor, string>;
+}
 
 const applyPositionStyles = (node: Yoga.YogaNode, style: Styles): void => {
 	if ('position' in style) {
@@ -235,7 +225,7 @@ const applyFlexStyles = (node: YogaNode, style: Styles): void => {
 			node.setFlexBasisPercent(Number.parseInt(style.flexBasis, 10));
 		} else {
 			// This should be replaced with node.setFlexBasisAuto() when new Yoga release is out
-			node.setFlexBasis(Number.NaN);
+			node.setFlexBasis(NaN);
 		}
 	}
 
@@ -355,7 +345,7 @@ const applyBorderStyles = (node: YogaNode, style: Styles): void => {
 	}
 };
 
-const styles = (node: YogaNode, style: Styles = {}): void => {
+export default (node: YogaNode, style: Styles = {}): void => {
 	applyPositionStyles(node, style);
 	applyMarginStyles(node, style);
 	applyPaddingStyles(node, style);
@@ -364,5 +354,3 @@ const styles = (node: YogaNode, style: Styles = {}): void => {
 	applyDisplayStyles(node, style);
 	applyBorderStyles(node, style);
 };
-
-export default styles;

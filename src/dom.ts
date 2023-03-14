@@ -1,46 +1,70 @@
-import Yoga, {type YogaNode} from 'yoga-layout-prebuilt';
+import Yoga, {YogaNode} from 'yoga-layout-prebuilt';
 import measureText from './measure-text.js';
-import applyStyles, {type Styles} from './styles.js';
+import applyStyles, {Styles} from './styles.js';
 import wrapText from './wrap-text.js';
 import squashTextNodes from './squash-text-nodes.js';
-import {type OutputTransformer} from './render-node-to-output.js';
+import {OutputTransformer} from './render-node-to-output.js';
 
-type InkNode = {
-	parentNode: DOMElement | undefined;
+interface InkNode {
+	parentNode: DOMElement | null;
 	yogaNode?: Yoga.YogaNode;
 	internal_static?: boolean;
-	style: Styles;
-};
+	style?: Styles;
+}
 
+//TODO-MG
+interface CodeGenNode {
+
+	// capturing type as it was not being 'persisted' into model data
+	type ?: ElementNames
+	parentFileNode? : DOMElement | null;
+
+	// every node can have an indent size including some from parent
+	indentSize?:number;
+
+	/**
+	 * This includes the inherited indent and the current indent (indentSize)
+	 */
+	currentSize?:number;
+
+}
+
+export const TEXT_NAME = '#text';
 export type TextName = '#text';
 export type ElementNames =
 	| 'ink-root'
 	| 'ink-box'
 	| 'ink-text'
+	| 'ink-file'
+	| 'ink-indent'
 	| 'ink-virtual-text';
 
 export type NodeNames = ElementNames | TextName;
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+
+//TODO-MG - the DOM element is supplemented with type CodeGenNode to track
+// each node's parent File node
+// each node can have one and only one output File node that tracks where it is output
 export type DOMElement = {
 	nodeName: ElementNames;
-	attributes: Record<string, DOMNodeAttribute>;
+	attributes: {
+		[key: string]: DOMNodeAttribute;
+	};
 	childNodes: DOMNode[];
 	internal_transform?: OutputTransformer;
 
 	// Internal properties
 	isStaticDirty?: boolean;
-	staticNode?: DOMElement;
+	staticNode?: any;
 	onRender?: () => void;
 	onImmediateRender?: () => void;
-} & InkNode;
+} & InkNode & CodeGenNode;
 
 export type TextNode = {
 	nodeName: TextName;
 	nodeValue: string;
-} & InkNode;
+} & InkNode  & CodeGenNode;
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export type DOMNode<T = {nodeName: NodeNames}> = T extends {
 	nodeName: infer U;
 }
@@ -49,7 +73,6 @@ export type DOMNode<T = {nodeName: NodeNames}> = T extends {
 		: DOMElement
 	: never;
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export type DOMNodeAttribute = boolean | string | number;
 
 export const createNode = (nodeName: ElementNames): DOMElement => {
@@ -58,7 +81,7 @@ export const createNode = (nodeName: ElementNames): DOMElement => {
 		style: {},
 		attributes: {},
 		childNodes: [],
-		parentNode: undefined,
+		parentNode: null,
 		yogaNode: nodeName === 'ink-virtual-text' ? undefined : Yoga.Node.create()
 	};
 
@@ -135,7 +158,7 @@ export const removeChildNode = (
 		removeNode.parentNode?.yogaNode?.removeChild(removeNode.yogaNode);
 	}
 
-	removeNode.parentNode = undefined;
+	removeNode.parentNode = null;
 
 	const index = node.childNodes.indexOf(removeNode);
 	if (index >= 0) {
@@ -168,7 +191,7 @@ export const createTextNode = (text: string): TextNode => {
 		nodeName: '#text',
 		nodeValue: text,
 		yogaNode: undefined,
-		parentNode: undefined,
+		parentNode: null,
 		style: {}
 	};
 
@@ -204,7 +227,7 @@ const measureTextNode = function (
 };
 
 const findClosestYogaNode = (node?: DOMNode): YogaNode | undefined => {
-	if (!node?.parentNode) {
+	if (!node || !node.parentNode) {
 		return undefined;
 	}
 

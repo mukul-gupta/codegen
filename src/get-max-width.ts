@@ -1,6 +1,6 @@
 import Yoga from 'yoga-layout-prebuilt';
 
-const getMaxWidth = (yogaNode: Yoga.YogaNode) => {
+export default (yogaNode: Yoga.YogaNode) => {
 	return (
 		yogaNode.getComputedWidth() -
 		yogaNode.getComputedPadding(Yoga.EDGE_LEFT) -
@@ -9,5 +9,3 @@ const getMaxWidth = (yogaNode: Yoga.YogaNode) => {
 		yogaNode.getComputedBorder(Yoga.EDGE_RIGHT)
 	);
 };
-
-export default getMaxWidth;

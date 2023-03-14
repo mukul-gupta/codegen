@@ -1,0 +1,543 @@
+{
+	"DataObject": {
+		"CodedValuesList": {
+			"_DisplayAttribute": " ",
+			"_StoredAttribute": " "
+		},
+		"VLSDeployment": {
+			"_DeploySecurityInfo": "False"
+		},
+		"SingularCaption": {
+			"__cdata": "R_BS_CATALOG"
+		},
+		"PluralCaption": {
+			"__cdata": "*"
+		},
+		"Description": {
+			"__cdata": " "
+		},
+		"Comments": {
+			"__cdata": " "
+		},
+		"Attributes": {
+			"Attribute": [
+				{
+					"DataType": {
+						"_DataType": "AutoNumber"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Catalog Id."
+					},
+					"_Name": "CTLG_ID",
+					"_ValueRequired": "True",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "VarChar",
+						"_Size": "30"
+					},
+					"ServerDataType": {
+						"_Type": "VARCHAR2",
+						"_Size": "30",
+						"_ServerOfOrigin": "Oracle7"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Class Name"
+					},
+					"ExtendedProperties": {
+						"Property": {
+							"_Name": "AllowMixedCase",
+							"_Value": "Y"
+						}
+					},
+					"_Name": "CLS_NM",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "VarChar",
+						"_Size": "100"
+					},
+					"ServerDataType": {
+						"_Type": "VARCHAR2",
+						"_Size": "100",
+						"_ServerOfOrigin": "Oracle7"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Package Name"
+					},
+					"ExtendedProperties": {
+						"Property": {
+							"_Name": "AllowMixedCase",
+							"_Value": "Y"
+						}
+					},
+					"_Name": "PKG_NM",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "Boolean"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Requires Approval"
+					},
+					"_Name": "RQRS_APRV",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "Integer"
+					},
+					"Validation": {
+						"_ValidationType": "CodedValuesList",
+						"_CodedValuesList": "CVL_BS_NODE_TYPE"
+					},
+					"Caption": {
+						"__cdata": "Item Type"
+					},
+					"_Name": "ITM_TYP",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "Long"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "App Server Id."
+					},
+					"_Name": "APPL_SRV_NM",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "VarChar",
+						"_Size": "50"
+					},
+					"ServerDataType": {
+						"_Type": "VARCHAR2",
+						"_Size": "50",
+						"_ServerOfOrigin": "Oracle7"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Catalog Label"
+					},
+					"ExtendedProperties": {
+						"Property": {
+							"_Name": "AllowMixedCase",
+							"_Value": "Y"
+						}
+					},
+					"_Name": "CTLG_NM",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "Long"
+					},
+					"Derivation": {
+						"DefaultValue": {
+							"__cdata": "-1"
+						},
+						"_DerivationType": "Default"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Parent Id."
+					},
+					"_Name": "PNT_ID",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "Integer"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Sequence Number"
+					},
+					"_Name": "SEQ_NO",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "Integer"
+					},
+					"Validation": {
+						"_ValidationType": "CodedValuesList",
+						"_CodedValuesList": "CVL_JOB_RET_CD"
+					},
+					"Caption": {
+						"__cdata": "Pre Condition Return Code"
+					},
+					"_Name": "PRE_CN_RET_CD",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "DateTime"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Last Run Date"
+					},
+					"_Name": "LAST_RUN_DT",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "Boolean"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Single Instance ?"
+					},
+					"_Name": "SNGL_RUN_PROC",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "Long"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Job Id  (Proc Running)"
+					},
+					"_Name": "PROC_RUNNING",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "VarChar",
+						"_Size": "50"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Cust. Param. UI Package"
+					},
+					"ExtendedProperties": {
+						"Property": {
+							"_Name": "AllowMixedCase",
+							"_Value": "Y"
+						}
+					},
+					"Derivation": {
+						"_DerivationType": "None"
+					},
+					"_Name": "CSTM_PARM_APPL_NM",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "VarChar",
+						"_Size": "50"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Cust. Param. Page"
+					},
+					"ExtendedProperties": {
+						"Property": {
+							"_Name": "AllowMixedCase",
+							"_Value": "Y"
+						}
+					},
+					"_Name": "CSTM_PARM_PG_NM",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "DateTime"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Last Start Date"
+					},
+					"_Name": "LAST_STRT_DT",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "Long"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"_Name": "AMS_ROW_VERS_NO",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "True",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "VarChar",
+						"_Size": "50"
+					},
+					"Derivation": {
+						"Formula": {
+							"__cdata": "AMSDataObject.toUpperCaseString(CTLG_NM)"
+						},
+						"_DerivationType": "Formula"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Catalog Label"
+					},
+					"_Name": "CTLG_NM_UP",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "True",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "Integer"
+					},
+					"Derivation": {
+						"_DerivationType": "None"
+					},
+					"Validation": {
+						"_ValidationType": "CodedValuesList",
+						"_CodedValuesList": "R_SC_APPL"
+					},
+					"Caption": "Application",
+					"_Name": "APPL_ID",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "True",
+					"_LayoutByDefault": "False",
+					"_Persistent": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "Integer"
+					},
+					"Derivation": {
+						"DefaultValue": "1",
+						"_DerivationType": "Default"
+					},
+					"Validation": {
+						"_ValidationType": "CodedValuesList",
+						"_CodedValuesList": "CVL_JOB_Q_DEF"
+					},
+					"Caption": "Queue Id",
+					"_Name": "Q_ID",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "True",
+					"_Persistent": "True"
+				},
+				{
+					"DataType": {
+						"_DataType": "DateTime"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": "Last Modified Date",
+					"_Name": "TBL_LAST_DT",
+					"_Persistent": "True",
+					"_PreventUserUpdates": "True",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "False"
+				},
+				{
+					"DataType": {
+						"_DataType": "VarChar",
+						"_Size": "129"
+					},
+					"Validation": {
+						"_ValidationType": "Condition"
+					},
+					"Caption": {
+						"__cdata": "Resource ID"
+					},
+					"Derivation": {
+						"_DerivationType": "None"
+					},
+					"Description": "",
+					"ExtendedProperties": {
+						"Property": {
+							"_Name": "AllowMixedCase",
+							"_Value": "Y"
+						}
+					},
+					"_Name": "RSRC_ID",
+					"_PreventUserUpdates": "False",
+					"_ValueRequired": "False",
+					"_LayoutByDefault": "False",
+					"_Persistent": "True"
+				}
+			]
+		},
+		"Indexes": {
+			"Index": [
+				{
+					"Index_Attribute": {
+						"_Name": "CTLG_ID",
+						"_Descending": "False"
+					},
+					"_Name": "PK_RBSCATALOG",
+					"_Primary": "True",
+					"_Unique": "True",
+					"_IgnoreNulls": "False"
+				},
+				{
+					"Index_Attribute": {
+						"_Name": "CLS_NM",
+						"_Descending": "False"
+					},
+					"_Name": "N1_RBSCATALOG",
+					"_Primary": "False",
+					"_Unique": "False",
+					"_IgnoreNulls": "False"
+				},
+				{
+					"Index_Attribute": {
+						"_Name": "PNT_ID",
+						"_Descending": "False"
+					},
+					"_Name": "N2_RBSCATALOG",
+					"_Primary": "False",
+					"_Unique": "False",
+					"_IgnoreNulls": "False"
+				},
+				{
+					"Index_Attribute": {
+						"_Name": "TBL_LAST_DT",
+						"_Descending": "False"
+					},
+					"_Name": "N3_RBSCATALOG",
+					"_Primary": "False",
+					"_Unique": "False",
+					"_IgnoreNulls": "False"
+				}
+			]
+		},
+		"Constraints": {
+			"Constraint": [
+				{
+					"Condition": " (  Inserting  OR  Updating )   AND  (  ITM_TYP   <> 5 /* Folder */ AND APPL_ID = 0 /* Common Application */ ) ",
+					"ErrorMessage": "Only folders can belong to the Common Application",
+					"_Name": "Common Folder Check",
+					"_ConditionType": "RejectWhen",
+					"_ErrorAttribute": "APPL_ID"
+				},
+				{
+					"Condition": " Updating  AND  isChanged( 'APPL_ID' ) = true ",
+					"ErrorMessage": "The Application cannot be changed on an existing entry",
+					"_Name": "Application Change",
+					"_ConditionType": "RejectWhen",
+					"_ErrorAttribute": "APPL_ID"
+				},
+				{
+					"Condition": " ( Inserting  OR  Updating )  AND (   isNull( 'PNT_ID' ) = false  )  AND  ( checkParentChainJobApplication() = false ) ",
+					"ErrorMessage": "The Application must match with the parent Chain Job Application",
+					"_Name": "Parent Chain Job Check",
+					"_ConditionType": "RejectWhen",
+					"_ErrorAttribute": "APPL_ID"
+				},
+				{
+					"Condition": " (  Inserting  OR  Updating )   AND  (  ITM_TYP   <> 5 /* Folder */ AND Q_ID IS NULL /* Queue ID is empty */ ) ",
+					"ErrorMessage": "Job Queue Id is required",
+					"_Name": "QueueIDNotNullForJobs",
+					"_ConditionType": "RejectWhen",
+					"_ErrorAttribute": "Q_ID"
+				}
+			]
+		},
+		"_SurrId": "0336498394.mgupta.0000",
+		"_CodedValuesList": "False",
+		"_IsRemoteAccessible": "False",
+		"_SuperClass": "AMSDataObject",
+		"_UseQuotedIdentifiers": "False",
+		"_LockMode": "NoOptimisticLocking",
+		"_ImageReference": " ",
+		"_XdaConnector": "SQL",
+		"_DTDVersion": "05.06.00"
+	}
+}

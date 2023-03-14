@@ -1,10 +1,9 @@
-import {Stream} from 'node:stream';
-import process from 'node:process';
-import {type ReactElement} from 'react';
-import Ink, {type Options as InkOptions} from './ink.js';
+import {ReactElement} from 'react';
+import Ink, {Options as InkOptions} from './ink.js';
 import instances from './instances.js';
+import {Stream} from 'stream';
 
-export type RenderOptions = {
+export interface RenderOptions {
 	/**
 	 * Output stream where app will be rendered.
 	 *
@@ -41,9 +40,9 @@ export type RenderOptions = {
 	 * @default true
 	 */
 	patchConsole?: boolean;
-};
+}
 
-export type Instance = {
+export interface Instance {
 	/**
 	 * Replace previous root node with a new one or update props of the current root node.
 	 */
@@ -62,7 +61,7 @@ export type Instance = {
 	 * Clear output.
 	 */
 	clear: () => void;
-};
+}
 
 type RenderFunction = <Props, K extends NodeJS.WriteStream | RenderOptions>(
 	tree: ReactElement<Props>,
@@ -92,9 +91,7 @@ const render: RenderFunction = (node, options): Instance => {
 
 	return {
 		rerender: instance.render,
-		unmount() {
-			instance.unmount();
-		},
+		unmount: () => instance.unmount(),
 		waitUntilExit: instance.waitUntilExit,
 		cleanup: () => instances.delete(inkOptions.stdout),
 		clear: instance.clear
@@ -120,9 +117,11 @@ const getInstance = (
 	stdout: NodeJS.WriteStream,
 	createInstance: () => Ink
 ): Ink => {
-	let instance = instances.get(stdout);
+	let instance: Ink;
 
-	if (!instance) {
+	if (instances.has(stdout)) {
+		instance = instances.get(stdout);
+	} else {
 		instance = createInstance();
 		instances.set(stdout, instance);
 	}

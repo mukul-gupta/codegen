@@ -1,6 +1,6 @@
-import {type DOMElement} from './dom.js';
+import {DOMElement} from './dom.js';
 
-type Output = {
+interface Output {
 	/**
 	 * Element width.
 	 */
@@ -10,14 +10,12 @@ type Output = {
 	 * Element height.
 	 */
 	height: number;
-};
+}
 
 /**
  * Measure the dimensions of a particular `<Box>` element.
  */
-const measureElement = (node: DOMElement): Output => ({
+export default (node: DOMElement): Output => ({
 	width: node.yogaNode?.getComputedWidth() ?? 0,
 	height: node.yogaNode?.getComputedHeight() ?? 0
 });
-
-export default measureElement;

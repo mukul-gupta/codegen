@@ -1,24 +1,43 @@
-import process from 'node:process';
-import React, {type ReactNode} from 'react';
-import throttle from 'lodash/throttle.js';
-import {type DebouncedFunc} from 'lodash';
 import ansiEscapes from 'ansi-escapes';
-import originalIsCi from 'is-ci';
 import autoBind from 'auto-bind';
-import signalExit from 'signal-exit';
+import originalIsCI from 'is-ci';
 import patchConsole from 'patch-console';
-import {type FiberRoot} from 'react-reconciler';
+import React, { ReactNode } from 'react';
+import { FiberRoot } from 'react-reconciler';
+import signalExit from 'signal-exit';
+import App from './components/App.js';
+import * as dom from './dom.js';
+import instances from './instances.js';
+import logUpdate, { LogUpdate } from './log-update.js';
 import reconciler from './reconciler.js';
 import render from './renderer.js';
-import * as dom from './dom.js';
-import logUpdate, {type LogUpdate} from './log-update.js';
-import instances from './instances.js';
-import App from './components/App.js';
 
-const isCi = process.env['CI'] === 'false' ? false : originalIsCi;
+
+import { DebouncedFunc, get, isEmpty, throttle } from 'lodash-es';
+
+//@ts-ignore
+import * as fs from 'fs';
+
+
+
+//@ts-ignore
+import StringBuilder from 'string-builder';
+
+//@ts-ignore
+import path from 'path';
+
+const isCI = process.env.CI === 'false' ? false : originalIsCI;
 const noop = () => {};
 
-export type Options = {
+// constants / variables to track one or more file (or buffers) created
+
+// string tracks the 'opened' files created during the render process
+// the key is the file name and the value is the writestream created corresponding
+// to the file name
+
+const openContentMap: Map<String, any> = new Map();
+
+export interface Options {
 	stdout: NodeJS.WriteStream;
 	stdin: NodeJS.ReadStream;
 	stderr: NodeJS.WriteStream;
@@ -26,7 +45,7 @@ export type Options = {
 	exitOnCtrlC: boolean;
 	patchConsole: boolean;
 	waitUntilExit?: () => Promise<void>;
-};
+}
 
 export default class Ink {
 	private readonly options: Options;
@@ -76,8 +95,9 @@ export default class Ink {
 		// so that it's rerendered every time, not just new static parts, like in non-debug mode
 		this.fullStaticOutput = '';
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		this.container = reconciler.createContainer(
+
+
 			this.rootNode,
 			// Legacy mode
 			0,
@@ -87,12 +107,14 @@ export default class Ink {
 			'id',
 			() => {},
 			null
+
+
 		);
 
 		// Unmount when process exits
 		this.unsubscribeExit = signalExit(this.unmount, {alwaysLast: false});
 
-		if (process.env['DEV'] === 'true') {
+		if (process.env.DEV === 'true') {
 			reconciler.injectIntoDevTools({
 				bundleType: 0,
 				// Reporting React DOM's version, not Ink's
@@ -106,7 +128,7 @@ export default class Ink {
 			this.patchConsole();
 		}
 
-		if (!isCi) {
+		if (!isCI) {
 			options.stdout.on('resize', this.onRender);
 
 			this.unsubscribeResize = () => {
@@ -143,7 +165,7 @@ export default class Ink {
 			return;
 		}
 
-		if (isCi) {
+		if (isCI) {
 			if (hasStaticOutput) {
 				this.options.stdout.write(staticOutput);
 			}
@@ -172,6 +194,7 @@ export default class Ink {
 		}
 
 		if (!hasStaticOutput && output !== this.lastOutput) {
+			//TODO-MG
 			this.throttledLog(output);
 		}
 
@@ -206,13 +229,17 @@ export default class Ink {
 			return;
 		}
 
-		if (isCi) {
+		if (isCI) {
 			this.options.stdout.write(data);
 			return;
 		}
 
 		this.log.clear();
+
+		//TODO-MG
 		this.options.stdout.write(data);
+
+		//TODO-MG - this writes the stuff to console
 		this.log(this.lastOutput);
 	}
 
@@ -227,7 +254,7 @@ export default class Ink {
 			return;
 		}
 
-		if (isCi) {
+		if (isCI) {
 			this.options.stderr.write(data);
 			return;
 		}
@@ -237,13 +264,15 @@ export default class Ink {
 		this.log(this.lastOutput);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	unmount(error?: Error | number | null): void {
 		if (this.isUnmounted) {
 			return;
 		}
 
-		this.onRender();
+		//TODO-MG - commenting out unmout
+		//		this.onRender();
+
+		closeFileHandles();
 		this.unsubscribeExit();
 
 		if (typeof this.restoreConsole === 'function') {
@@ -256,7 +285,7 @@ export default class Ink {
 
 		// CIs don't handle erasing ansi escapes well, so it's better to
 		// only render last frame of non-static output
-		if (isCi) {
+		if (isCI) {
 			this.options.stdout.write(this.lastOutput + '\n');
 		} else if (!this.options.debug) {
 			this.log.done();
@@ -274,7 +303,7 @@ export default class Ink {
 		}
 	}
 
-	async waitUntilExit(): Promise<void> {
+	waitUntilExit(): Promise<void> {
 		if (!this.exitPromise) {
 			this.exitPromise = new Promise((resolve, reject) => {
 				this.resolveExitPromise = resolve;
@@ -286,7 +315,7 @@ export default class Ink {
 	}
 
 	clear(): void {
-		if (!isCi && !this.options.debug) {
+		if (!isCI && !this.options.debug) {
 			this.log.clear();
 		}
 	}
@@ -309,5 +338,106 @@ export default class Ink {
 				}
 			}
 		});
+	}
+}
+
+/**
+ *
+ * Creates file streams
+ * @param fileName
+ * @returns
+ */
+export function writeTextToFile(
+	text: string,
+	fileNode: dom.DOMElement,
+	indentSize: number
+): void {
+	var fileName = get(fileNode.attributes, 'name') as string;
+
+	var currFileName;
+
+	try {
+		if (isEmpty(fileName)) {
+			console.log(`Error creating file ${fileName}`);
+			return;
+		}
+
+		currFileName = fileName;
+
+		var fileWriteStream = openContentMap.get(currFileName);
+
+		if (isEmpty(fileWriteStream)) {
+			//fileWriteStream = fs.createWriteStream(fileName, {flags: 'w'});
+			fileWriteStream = new StringBuilder();
+			openContentMap.set(currFileName, fileWriteStream);
+
+			//openFileMap.set(currFileName, fileWriteStream);
+		}
+
+		// at this stage we have a file stream to write text to
+
+		const lines = text.split('\n');
+
+		//var wasWritten = false;
+
+		// write lines
+		lines.forEach(line_text => {
+			//@ts-ignore - write indent value
+			//wasWritten = fileWriteStream.write(' '.repeat(indentSize));
+
+			fileWriteStream.append(' '.repeat(indentSize));
+
+			//@ts-ignore  write text
+			//wasWritten = fileWriteStream.write(line_text);
+			fileWriteStream.append(line_text);
+
+			//@ts-ignore   new line
+			//wasWritten = fileWriteStream.write('\n');
+			fileWriteStream.appendLine();
+		});
+	} catch (error) {
+		console.log(`Error creating file stream ${error}`);
+	}
+}
+
+/**
+ *
+ * Creates file streams
+ * @param fileName
+ * @returns
+ */
+export function closeFileHandles(): void {
+	try {
+		openContentMap.forEach((sb, fileName) => {
+			//const dir = fileName;
+			//const desiredMode = 0o2775;
+			// const options = {
+			// 	mode: 0o2775
+			// };
+
+			var dirname = path.dirname(fileName.toString());
+
+			try {
+				// make sure the director is created or exists
+				if (!isEmpty(dirname)) {
+
+					if (!fs.existsSync(dirname) ) {
+						fs.mkdirSync(dirname, {recursive:true});
+
+					}
+
+				}
+			} catch (error) {
+				console.log(`Error creating directory ${dirname}`);
+			}
+
+
+
+
+			//@ts-ignore
+			fs.writeFileSync(fileName, sb.toString());
+		});
+	} catch (error) {
+		console.log(`Error closing file streams`);
 	}
 }
