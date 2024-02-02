@@ -1,0 +1,48 @@
+{
+	"name": "LoginView",
+	"steps": [
+		{
+			"pageElement": {
+				"type": "input",
+				"name": "userid",
+				"label": {
+					"type": "label",
+					"name": "label_user_id",
+					"value_string": "User Id"
+				},
+				"value_string": "user_sysadmin"
+			},
+			"step_id":"1",
+
+			"action": "insert"
+		},
+		{
+			"pageElement": {
+				"type": "input",
+				"name": "password",
+				"label": {
+					"type": "label",
+					"name": "label_pass_wd",
+					"value_string": "Password"
+				},
+
+				"value_string": "xxx1yeye"
+			},
+			"step_id": 2,
+			"action": "insert"
+		},
+		{
+			"pageElement": {
+				"type": "button",
+				"name": "login",
+				"label": {
+					"type": "label",
+					"name": "label_login_btn",
+					"value_string": "Login"
+				}
+			},
+			"step_id": 3,
+			"action": "click"
+		}
+	]
+}

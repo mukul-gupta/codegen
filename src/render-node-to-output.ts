@@ -211,7 +211,8 @@ const setIndentForAllNodes = (
 		// set the current indent size to what was already passed plus
 		// what is read from the node
 
-		if ( node.attributes['indentSize'] !== undefined && node.attributes['indentSize'] > 0) {
+
+		if ( node.attributes['indentSize'] !== undefined ) {
 
 
 			node.indentSize =  node.attributes['indentSize'] as number; // read from node
