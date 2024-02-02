@@ -48,6 +48,15 @@
 				"C:\\projects\\nodeprojs\\react-renderers\\codegen\\build\\src\\console\\EntityToDDL.js"
 			],
 			"type": "node"
+		},
+		{
+			"name": "AutomationGenerate",
+			"request": "launch",
+			"runtimeExecutable": "node",
+			"runtimeArgs": [
+				"C:\\projects\\nodeprojs\\react-renderers\\codegen\\build\\src\\automation\\pageScriptToCode.js"
+			],
+			"type": "node"
 		}
 	]
 }
