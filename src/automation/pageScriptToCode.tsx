@@ -12,10 +12,6 @@ import { ViewScriptCodeComp } from './viewComp.js';
 
 const current_viewscript = view_script.default as ViewScript;
 
-
-
-
-
 const WritePageScript: FC = () => {
 	const {write} = useStdout();
 
@@ -26,7 +22,7 @@ const WritePageScript: FC = () => {
 	const newline = '\n';
 
 	return (
-		<ViewScriptCodeComp fileName='myFile' viewScript={current_viewscript}></ViewScriptCodeComp>
+		<ViewScriptCodeComp fileName={current_viewscript.name} viewScript={current_viewscript}></ViewScriptCodeComp>
 	);
 };
 
