@@ -8,6 +8,7 @@ import Text from '../components/Text.js';
 import {ButtonScript} from './ButtonScript.js';
 import {InputScript} from './inputScript.js';
 import {FunctionScript} from '../common/FunctionScript.js';
+import {TryCatchViewScriptCtx} from '../common/TryCatchPageScriptCtx.js';
 
 interface Props {
 	readonly children?: ReactNode;
@@ -33,7 +34,6 @@ export class ViewScriptCodeComp extends PureComponent<Props, {}> {
 
 		let viewFunctionParamNames = ['page'];
 
-
 		return (
 			<React.Fragment>
 				<File name={filenm1}>
@@ -42,7 +42,7 @@ export class ViewScriptCodeComp extends PureComponent<Props, {}> {
 						function_name={viewScriptName}
 						params={viewFunctionParamNames}
 					>
-						{stepScripts}
+						<TryCatchViewScriptCtx>{stepScripts}</TryCatchViewScriptCtx>
 						{this.props.children}
 					</FunctionScript>
 				</File>

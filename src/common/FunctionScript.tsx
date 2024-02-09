@@ -39,17 +39,6 @@ export class FunctionScript extends PureComponent<Props, {}> {
 	}
 }
 
-{
-	/* <Fragment>
-				<Text>function {function_name}({getParamNameList(params)}) {braceBegin}</Text>
-				<Indent size={3}>
-					<Text>
-						{this.props.children} {newline}
-						{braceEnd}
-					</Text>
-				</Indent>
-			</Fragment> */
-}
 
 function getParamNameList(params: FunctionFormalParamName[]): string {
 	let retString = '';
